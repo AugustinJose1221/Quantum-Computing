@@ -1,0 +1,24 @@
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute
+from qiskit import BasicAer
+
+q = QuantumRegister(4)
+c = ClassicalRegister(4)
+qc = QuantumCircuit(q,c)
+
+qc.h(q)
+qc.cx(q[0],q[3])
+qc.cx(q[1],q[3])
+qc.cx(q[2],q[3])
+
+meas = QuantumCircuit(q,c)
+meas.measure(q,c)
+test = qc + meas
+
+qc.draw(output='text')
+print(test)
+'''
+backend = BasicAer.get_backend("qasm_simulator")
+job = execute(test , backend, shots=1000)
+result = job.result().get_counts(test)
+print(result)
+'''
